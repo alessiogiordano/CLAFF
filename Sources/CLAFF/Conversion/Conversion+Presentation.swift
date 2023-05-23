@@ -9,22 +9,24 @@
 
 import Foundation
 
-extension Conversion {
-    enum Presentation {
-        enum toPDF: ConversionProtocol {
-            static let filter_name: String = "impress_pdf_Export"
-        }
-        enum toOpenDocument: ConversionProtocol {
-            static let filter_name: String = "impress8"
-        }
-        enum toKeynote: ConversionProtocol {
-            static let filter_name: String = "Apple Keynote"
-        }
-        enum toPowerPoint: ConversionProtocol {
-            static let filter_name: String = "Impress MS PowerPoint 2007 XML"
-        }
-        enum toLegacyPowerPoint: ConversionProtocol {
-            static let filter_name: String = "MS PowerPoint 97"
-        }
+public extension Conversion {
+    enum Presentation {}
+}
+
+public extension Conversion.Presentation {
+    enum toPDF: ConversionProtocol {
+        public static let filter_name: String = "impress_pdf_Export"
+    }
+    enum toOpenDocument: ConversionProtocol {
+        public static let filter_name: String = "impress8"
+    }
+    enum toKeynote: ConversionProtocol {
+        public static let filter_name: String = "Apple Keynote"
+    }
+    enum toPowerPoint: ConversionProtocol {
+        public static let filter_name: String = "Impress MS PowerPoint 2007 XML"
+    }
+    enum toLegacyPowerPoint: ConversionProtocol {
+        public static let filter_name: String = "MS PowerPoint 97"
     }
 }

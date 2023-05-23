@@ -4,16 +4,17 @@
 //
 //  Created by Alessio Giordano on 22/03/23.
 //
+//  Filter Options Guide: https://wiki.openoffice.org/wiki/Documentation/DevGuide/Spreadsheets/Filter_Options
 
 import Foundation
 
-enum Conversion {}
+public enum Conversion {}
 
-struct ConversionServer {
+public struct ConversionServer {
     let interface: String
     let port: String
     
-    init(interface: String = "localhost", port: Int = 2002) {
+    public init(interface: String = "localhost", port: Int = 2002) {
         self.interface = interface
         self.port = String(port)
     }
@@ -26,13 +27,17 @@ struct ConversionServer {
     }
 }
 
-protocol ConversionProtocol {
+public protocol ConversionProtocol {
     static var filter_name: String { get }
+    static var filter_options: String? { get }
     static func execute(from sourcePath: String, to destinationPath: String, on server: ConversionServer) async throws
     static func execute(from sourceData: Data, on server: ConversionServer) async throws -> Data
 }
+public extension ConversionProtocol {
+    static var filter_options: String? { nil }
+}
 
-extension ConversionProtocol {
+public extension ConversionProtocol {
     static func execute(from sourcePath: String, to destinationPath: String, on server: ConversionServer = .init()) async throws {
         return try await withCheckedThrowingContinuation { continuation in
             Task.detached {
@@ -51,7 +56,7 @@ extension ConversionProtocol {
                 document = desktop.loadComponentFromURL(import_path, "_default", 0, input_props)
                 
                 export_path = uno.systemPathToFileUrl(os.path.abspath("\(destinationPath)"))
-                output_props = (PropertyValue(Name="FilterName", Value="\(filter_name)"), PropertyValue(Name="Overwrite", Value=True))
+                output_props = (PropertyValue(Name="FilterName", Value="\(filter_name)")\(filter_options != nil ? ", PropertyValue(Name=\"FilterOptions\", Value=\"\(filter_options!)\")" : ""), PropertyValue(Name="Overwrite", Value=True))
                 
                 document.storeToURL(export_path, output_props)
                 document.close(True)
