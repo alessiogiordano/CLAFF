@@ -16,7 +16,7 @@ public extension Conversion {
 public extension Conversion.Spreadsheet {
     enum toHTML: ConversionProtocol {
         public static let filter_name: String = "HTML (StarCalc)"
-        public static let filter_options: String? = "EmbedImages"
+        public static let filter_options: String? = "EmbedImages" // "SkipImages"
     }
     enum toPDF: ConversionProtocol {
         public static let filter_name: String = "calc_pdf_Export"
