@@ -39,7 +39,7 @@ public extension ConversionProtocol {
 
 public extension ConversionProtocol {
     static func execute(from sourcePath: String, to destinationPath: String, on server: ConversionServer = .init()) async throws {
-        return try await withCheckedThrowingContinuation { continuation in
+        return try await withUnsafeThrowingContinuation { continuation in
             Task.detached {
                 let script = """
                 import uno
@@ -76,18 +76,18 @@ public extension ConversionProtocol {
     }
     
     static func execute(from sourceData: Data, on server: ConversionServer = .init()) async throws -> Data {
-        return try await withCheckedThrowingContinuation { continuation in
+        return try await withUnsafeThrowingContinuation { continuation in
             Task.detached {
-                let workingDirectory = FileManager.default.temporaryDirectory.appending(path: UUID().uuidString, directoryHint: .isDirectory)
+                let workingDirectory = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString, isDirectory: true)
                 try? FileManager.default.createDirectory(at: workingDirectory, withIntermediateDirectories: true)
                 defer {
                     try? FileManager.default.removeItem(at: workingDirectory)
                 }
                 do {
-                    let sourceFile = workingDirectory.appending(path: "source")
-                    let destinationFile = workingDirectory.appending(path: "destination")
+                    let sourceFile = workingDirectory.appendingPathComponent("source")
+                    let destinationFile = workingDirectory.appendingPathComponent("destination")
                     try sourceData.write(to: sourceFile)
-                    try await execute(from: sourceFile.path(), to: destinationFile.path(), on: server)
+                    try await execute(from: sourceFile.path, to: destinationFile.path, on: server)
                     continuation.resume(returning: try Data(contentsOf: destinationFile))
                 } catch {
                     continuation.resume(throwing: error)

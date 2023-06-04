@@ -10,9 +10,9 @@ import Foundation
 /*
 MARK: Example Usage
 if let desktop = FileManager.default.urls(for: .desktopDirectory, in: .userDomainMask).first {
-    try await Conversion.Text.toPDF.execute(from: try Data(contentsOf: desktop.appending(component: "Test.docx"))).write(to: desktop.appending(component: "Test-Doc-\(Date().ISO8601Format()).pdf"))
-    try await Conversion.Spreadsheet.toHTML.execute(from: try Data(contentsOf: desktop.appending(component: "Test.xlsx"))).write(to: desktop.appending(component: "Test-Xls-\(Date().ISO8601Format()).html"))
-    try await Conversion.Presentation.toPDF.execute(from: try Data(contentsOf: desktop.appending(component: "Test.ppt"))).write(to: desktop.appending(component: "Test-Ppt-\(Date().ISO8601Format())
+    try await Conversion.Text.toPDF.execute(from: try Data(contentsOf: desktop.appending(component: "Test.docx"))).write(to: desktop.appending(component: "Test-Doc-\(Date().iso8601).pdf"))
+    try await Conversion.Spreadsheet.toHTML.execute(from: try Data(contentsOf: desktop.appending(component: "Test.xlsx"))).write(to: desktop.appending(component: "Test-Xls-\(Date().iso8601).html"))
+    try await Conversion.Presentation.toPDF.execute(from: try Data(contentsOf: desktop.appending(component: "Test.ppt"))).write(to: desktop.appending(component: "Test-Ppt-\(Date().iso8601)
 }
 */
 
